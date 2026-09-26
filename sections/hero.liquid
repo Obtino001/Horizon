@@ -327,7 +327,14 @@
   {{ media_slot_2 }}
 
   {% if media_count == 0 %}
-    {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__media' }}
+    {% if section.settings.use_included_campaign %}
+      <picture class="hero__media" data-testid="hero-included-campaign">
+        <source media="(max-width: 749px)" srcset="{{ 'campaign-hero-mobile.webp' | asset_url }}" width="1122" height="1402">
+        <img class="hero__media" src="{{ 'campaign-hero-desktop.webp' | asset_url }}" width="1672" height="941" loading="eager" fetchpriority="high" alt="">
+      </picture>
+    {% else %}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__media' }}
+    {% endif %}
   {%- endif -%}
 {% endcapture %}
 
@@ -454,6 +461,13 @@
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
   endif
+
+  assign display_media_count = media_count
+  assign display_media_count_mobile = media_count_mobile
+  if section.settings.use_included_campaign and media_count == 0
+    assign display_media_count = 1
+    assign display_media_count_mobile = 1
+  endif
 -%}
 
 {% # A first-section hero consumes `--header-group-height` at first paint (`.hero-wrapper:first-child` rule below) %}
@@ -461,7 +475,7 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}{% if section.settings.use_included_campaign and media_count == 0 %} hero--campaign{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
@@ -521,7 +535,7 @@
     {%- endif -%}
     <div
       class="hero__media-grid"
-      style="--hero-media-count: {{ media_count }};--hero-media-count-mobile: {{ media_count_mobile }};{%- if section.settings.image_1 != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};{% endif %}"
+      style="--hero-media-count: {{ display_media_count }};--hero-media-count-mobile: {{ display_media_count_mobile }};{%- if section.settings.image_1 != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};{% endif %}"
       data-testid="hero-media-wrapper"
     >
       {% liquid
@@ -561,6 +575,45 @@
   .hero {
     position: relative;
     min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
+  }
+
+  .hero--campaign {
+    min-height: clamp(520px, 72svh, 780px);
+  }
+
+  .hero--campaign .hero__content-wrapper {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(24px, 6vw, 96px);
+  }
+
+  .hero--campaign .hero__content-wrapper h1 {
+    max-width: 11ch;
+    font-size: clamp(2.75rem, 5.5vw, 5.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+
+  .hero--campaign .hero__content-wrapper p {
+    max-width: 38rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero--campaign {
+      min-height: max(610px, 78svh);
+    }
+
+    .hero--campaign .hero__content-wrapper {
+      align-self: start;
+      padding-block-start: clamp(42px, 7svh, 70px);
+    }
+
+    .hero--campaign .hero__content-wrapper h1 {
+      max-width: 11ch;
+      font-size: clamp(2.5rem, 10vw, 3.6rem);
+    }
   }
 
   .hero[data-shopify-visual-preview] {
@@ -824,6 +877,13 @@
       "id": "image_1",
       "label": "t:settings.image",
       "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_included_campaign",
+      "label": "Use included accessories campaign when no image is selected",
+      "default": false,
+      "info": "The desktop and mobile campaign images are theme assets. Selecting an image above replaces them."
     },
     {
       "type": "video",

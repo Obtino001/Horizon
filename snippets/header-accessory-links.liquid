@@ -1,0 +1,33 @@
+{% comment %}
+  Category links for Horizon's existing header menu and drawer. Merchants can assign
+  collections in the header block; until then, each link searches live products.
+{% endcomment %}
+{% assign all_products_url = routes.all_products_collection_url %}
+{% if variant == 'drawer' %}
+  <li><a href="{{ all_products_url }}" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element"><span class="menu-drawer__menu-item-text wrap-text">Shop all</span></a></li>
+{% elsif variant == 'bar' %}
+  <li><a href="{{ all_products_url }}" class="menu-list__item">Shop all</a></li>
+{% else %}
+  <li class="menu-list__list-item"><a href="{{ all_products_url }}" class="menu-list__link" ref="menuitem"><span class="menu-list__link-title">Shop all</span></a></li>
+{% endif %}
+{% for i in (1..5) %}
+  {% assign name_key = 'category_' | append: i | append: '_name' %}
+  {% assign collection_key = 'category_' | append: i | append: '_collection' %}
+  {% assign label = block_settings[name_key] %}
+  {% assign category_collection = block_settings[collection_key] %}
+  {% if label != blank %}
+    {% if category_collection != blank %}
+      {% assign category_url = category_collection.url %}
+    {% else %}
+      {% assign encoded_label = label | url_encode %}
+      {% assign category_url = routes.search_url | append: '?type=product&q=' | append: encoded_label %}
+    {% endif %}
+    {% if variant == 'drawer' %}
+      <li><a href="{{ category_url }}" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element"><span class="menu-drawer__menu-item-text wrap-text">{{ label | escape }}</span></a></li>
+    {% elsif variant == 'bar' %}
+      <li><a href="{{ category_url }}" class="menu-list__item">{{ label | escape }}</a></li>
+    {% else %}
+      <li class="menu-list__list-item"><a href="{{ category_url }}" class="menu-list__link" ref="menuitem"><span class="menu-list__link-title">{{ label | escape }}</span></a></li>
+    {% endif %}
+  {% endif %}
+{% endfor %}

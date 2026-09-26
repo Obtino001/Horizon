@@ -6,7 +6,11 @@
   endif
 %}
 
-{% render 'media', unset_image_tag: unset_image_tag %}
+{% if block.settings.use_included_editorial and block.settings.image == blank %}
+  {% render 'media', unset_image_tag: unset_image_tag, asset_fallback: 'charging-editorial.webp' %}
+{% else %}
+  {% render 'media', unset_image_tag: unset_image_tag %}
+{% endif %}
 
 {% schema %}
 {
@@ -34,6 +38,12 @@
       "id": "image",
       "label": "t:settings.image",
       "visible_if": "{{ block.settings.media_type == 'image' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_included_editorial",
+      "label": "Use included charging editorial image when no image is selected",
+      "default": false
     },
     {
       "type": "url",

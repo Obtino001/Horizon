@@ -9,6 +9,10 @@
 {% liquid
   assign block_settings = block.settings
   assign effective_submenu_color = block_settings.background_color | default: settings.page_background_color
+  assign drawer_linklist = block_settings.menu
+  if block_settings.show_accessory_navigation
+    assign drawer_linklist = blank
+  endif
 %}
 
 {% case variant %}
@@ -20,7 +24,7 @@
       {{ block.shopify_attributes }}
     >
       {% render 'header-drawer',
-        linklist: block_settings.menu,
+        linklist: drawer_linklist,
         data_header_drawer_type: 'mobile-drawer',
         block: block,
         section: section
@@ -45,6 +49,9 @@
             class="menu-list__list list-unstyled"
             role="list"
           >
+            {% if block_settings.show_accessory_navigation %}
+              {% render 'header-accessory-links', block_settings: block_settings, variant: 'bar' %}
+            {% else %}
             {% for link in block_settings.menu.links %}
               <li>
                 <a
@@ -59,6 +66,7 @@
                 </a>
               </li>
             {% endfor %}
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -93,6 +101,9 @@
     %}
 
     {% capture children %}
+      {% if block_settings.show_accessory_navigation %}
+        {% render 'header-accessory-links', block_settings: block_settings, variant: 'desktop' %}
+      {% else %}
       {% for link in block_settings.menu.links %}
         <li
           class="menu-list__list-item"
@@ -169,6 +180,7 @@
           {%- endif -%}
         </li>
       {% endfor %}
+      {% endif %}
       <li
         class="menu-list__list-item"
         slot="more"
@@ -826,6 +838,22 @@
       "label": "t:settings.menu",
       "default": "main-menu"
     },
+    {
+      "type": "checkbox",
+      "id": "show_accessory_navigation",
+      "label": "Show accessory categories instead of the menu",
+      "default": false
+    },
+    { "type": "text", "id": "category_1_name", "label": "Category 1 label", "default": "Chargers" },
+    { "type": "collection", "id": "category_1_collection", "label": "Category 1 collection" },
+    { "type": "text", "id": "category_2_name", "label": "Category 2 label", "default": "Cables" },
+    { "type": "collection", "id": "category_2_collection", "label": "Category 2 collection" },
+    { "type": "text", "id": "category_3_name", "label": "Category 3 label", "default": "Power banks" },
+    { "type": "collection", "id": "category_3_collection", "label": "Category 3 collection" },
+    { "type": "text", "id": "category_4_name", "label": "Category 4 label", "default": "Wireless" },
+    { "type": "collection", "id": "category_4_collection", "label": "Category 4 collection" },
+    { "type": "text", "id": "category_5_name", "label": "Category 5 label", "default": "Gadgets" },
+    { "type": "collection", "id": "category_5_collection", "label": "Category 5 collection" },
     {
       "type": "header",
       "content": "t:content.appearance"

@@ -60,7 +60,13 @@
             "navigation_bar": true,
             "drawer_accordion": true,
             "drawer_accordion_expand_first": false,
-            "drawer_dividers": true
+            "drawer_dividers": true,
+            "show_accessory_navigation": true,
+            "category_1_name": "Chargers",
+            "category_2_name": "Cables",
+            "category_3_name": "Power banks",
+            "category_4_name": "Wireless",
+            "category_5_name": "Gadgets"
           },
           "blocks": {}
         }
@@ -80,7 +86,7 @@
         "localization_position": "right",
         "localization_row": "top",
         "section_width": "page-width",
-        "section_height": "standard",
+        "section_height": "compact",
         "enable_sticky_header": "always",
         "divider_width": 1,
         "divider_size": "page-width",

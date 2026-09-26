@@ -103,6 +103,9 @@
           class="menu-drawer__menu has-submenu"
           role="list"
         >
+          {% if block_settings.show_accessory_navigation %}
+            {% render 'header-accessory-links', block_settings: block_settings, variant: 'drawer' %}
+          {% endif %}
           {%- comment -%}
             Handle menus with fewer than 3 levels of links
           {%- endcomment -%}

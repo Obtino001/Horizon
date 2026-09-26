@@ -48,6 +48,8 @@
           class: 'media-block__media border-style',
           unset_image_tag: unset_image_tag
         %}
+      {% elsif asset_fallback != blank %}
+        <img src="{{ asset_fallback | asset_url }}" class="media-block__media border-style" width="1254" height="1254" loading="lazy" alt="">
       {% else %}
         <div class="media-block__media border-style">
           {{ 'detailed-apparel-1' | placeholder_svg_tag: 'media-block__placeholder' }}
