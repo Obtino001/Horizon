@@ -550,11 +550,23 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "product_rating": {
+              "type": "review",
+              "settings": {
+                "stars_style": "single",
+                "show_number": true,
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left"
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "product_card_gallery_DNizbJ",
             "product_title_M7MJkb",
+            "product_rating",
             "price_gLWgA6"
           ]
         }

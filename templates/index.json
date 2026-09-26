@@ -366,11 +366,23 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "product_rating": {
+              "type": "review",
+              "settings": {
+                "stars_style": "single",
+                "show_number": true,
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left"
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "product_card_gallery_677WP3",
             "product_title_YXxMTj",
+            "product_rating",
             "price_JQzVV4"
           ]
         }
@@ -1032,11 +1044,23 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "product_rating": {
+              "type": "review",
+              "settings": {
+                "stars_style": "single",
+                "show_number": true,
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left"
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "product_card_gallery_677WP3",
             "product_title_YXxMTj",
+            "product_rating",
             "price_JQzVV4"
           ]
         }
