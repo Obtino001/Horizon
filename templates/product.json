@@ -167,7 +167,7 @@
                 "vendor": {
                   "type": "text",
                   "settings": {
-                    "text": "{{ closest.product.vendor }}",
+                    "text": "<p>{{ closest.product.vendor }}</p>",
                     "type_preset": "h6",
                     "case": "uppercase",
                     "text_color": "{{ settings.color_palette.color1 }}",
