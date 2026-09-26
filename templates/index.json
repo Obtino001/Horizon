@@ -578,7 +578,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Explore chargers, cables and power banks. Compare each product’s listed details to find the right fit for your devices.</p>",
+                    "text": "<p>Explore chargers, cables and power banks. Compare each productâ€™s listed details to find the right fit for your devices.</p>",
                     "max_width": "narrow",
                     "type_preset": "rte"
                   }
@@ -666,7 +666,7 @@
               "type": "text",
               "name": "t:names.description",
               "settings": {
-                "text": "<p>Check your device’s port and charging requirements before choosing a charger or cable.</p>",
+                "text": "<p>Check your deviceâ€™s port and charging requirements before choosing a charger or cable.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
